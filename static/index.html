@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voting System</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-top: 40px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #333;
+            text-align: center;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            margin-bottom: 40px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .message {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .section-title {
+            color: #4CAF50;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .form-container {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .message {
+                font-size: 12px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Voting System</h1>
+
+        <!-- Voter Registration -->
+        <div class="form-container">
+            <h2 class="section-title">Register Voter</h2>
+            <div class="form-group">
+                <label for="voter-id">Voter ID</label>
+                <input type="text" id="voter-id" placeholder="Enter voter ID">
+            </div>
+            <div class="form-group">
+                <label for="voter-name">Voter Name</label>
+                <input type="text" id="voter-name" placeholder="Enter voter name">
+            </div>
+            <div class="form-group">
+                <label for="voter-age">Voter Age</label>
+                <input type="number" id="voter-age" placeholder="Enter voter age">
+            </div>
+            <button onclick="registerVoter()">Register Voter</button>
+            <div class="message" id="voter-message"></div>
+        </div>
+
+        <!-- Candidate Management -->
+        <div class="form-container">
+            <h2 class="section-title">Add Candidate</h2>
+            <div class="form-group">
+                <label for="candidate-id">Candidate ID</label>
+                <input type="text" id="candidate-id" placeholder="Enter candidate ID">
+            </div>
+            <div class="form-group">
+                <label for="candidate-name">Candidate Name</label>
+                <input type="text" id="candidate-name" placeholder="Enter candidate name">
+            </div>
+            <button onclick="addCandidate()">Add Candidate</button>
+            <div class="message" id="candidate-message"></div>
+        </div>
+
+        <!-- Election Scheduling -->
+        <div class="form-container">
+            <h2 class="section-title">Create Election</h2>
+            <div class="form-group">
+                <label for="election-id">Election ID</label>
+                <input type="text" id="election-id" placeholder="Enter election ID">
+            </div>
+            <div class="form-group">
+                <label for="election-name">Election Name</label>
+                <input type="text" id="election-name" placeholder="Enter election name">
+            </div>
+            <div class="form-group">
+                <label for="election-date">Election Date</label>
+                <input type="date" id="election-date">
+            </div>
+            <button onclick="createElection()">Create Election</button>
+            <div class="message" id="election-message"></div>
+        </div>
+
+        <!-- Cast Vote -->
+        <div class="form-container">
+            <h2 class="section-title">Cast Vote</h2>
+            <div class="form-group">
+                <label for="vote-voter-id">Voter ID</label>
+                <input type="text" id="vote-voter-id" placeholder="Enter voter ID">
+            </div>
+            <div class="form-group">
+                <label for="vote-election-id">Election ID</label>
+                <input type="text" id="vote-election-id" placeholder="Enter election ID">
+            </div>
+            <div class="form-group">
+                <label for="vote-candidate-id">Candidate ID</label>
+                <input type="text" id="vote-candidate-id" placeholder="Enter candidate ID">
+            </div>
+            <button onclick="castVote()">Cast Vote</button>
+            <div class="message" id="vote-message"></div>
+        </div>
+
+        <!-- Results -->
+        <div class="form-container">
+            <h2 class="section-title">View Election Results</h2>
+            <div class="form-group">
+                <label for="results-election-id">Election ID</label>
+                <input type="text" id="results-election-id" placeholder="Enter election ID">
+            </div>
+            <button onclick="viewResults()">View Results</button>
+            <div class="message" id="results-message"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000';
+
+        // Register Voter
+        function registerVoter() {
+            const id = document.getElementById('voter-id').value;
+            const name = document.getElementById('voter-name').value;
+            const age = document.getElementById('voter-age').value;
+            const voterData = { id, name, age };
+
+            fetch(`${API_URL}/`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(voterData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('voter-message').textContent = data.message || data.error;
+            })
+            .catch(error => {
+                document.getElementById('voter-message').textContent = 'Error registering voter.';
+            });
+        }
+
+        // Add Candidate
+        function addCandidate() {
+            const id = document.getElementById('candidate-id').value;
+            const name = document.getElementById('candidate-name').value;
+            const candidateData = { id, name };
+
+            fetch(`${API_URL}/add-candidate`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(candidateData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('candidate-message').textContent = data.message || data.error;
+            })
+            .catch(error => {
+                document.getElementById('candidate-message').textContent = 'Error adding candidate.';
+            });
+        }
+
+        // Create Election
+        function createElection() {
+            const id = document.getElementById('election-id').value;
+            const name = document.getElementById('election-name').value;
+            const date = document.getElementById('election-date').value;
+            const electionData = { id, name, date };
+
+            fetch(`${API_URL}/create-election`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(electionData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('election-message').textContent = data.message || data.error;
+            })
+            .catch(error => {
+                document.getElementById('election-message').textContent = 'Error creating election.';
+            });
+        }
+
+        // Cast Vote
+        function castVote() {
+            const voterId = document.getElementById('vote-voter-id').value;
+            const electionId = document.getElementById('vote-election-id').value;
+            const candidateId = document.getElementById('vote-candidate-id').value;
+            const voteData = { voter_id: voterId, election_id: electionId, candidate_id: candidateId };
+
+            fetch(`${API_URL}/cast-vote`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(voteData),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('vote-message').textContent = data.message || data.error;
+            })
+            .catch(error => {
+                document.getElementById('vote-message').textContent = 'Error casting vote.';
+            });
+        }
+
+        // View Results
+        function viewResults() {
+            const electionId = document.getElementById('results-election-id').value;
+
+            fetch(`${API_URL}/results/${electionId}`, {
+                method: 'GET',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.results) {
+                    document.getElementById('results-message').textContent = `Results: ${JSON.stringify(data.results)} | Winner: ${data.winner}`;
+                } else {
+                    document.getElementById('results-message').textContent = data.error;
+                }
+            })
+            .catch(error => {
+                document.getElementById('results-message').textContent = 'Error retrieving results.';
+            });
+        }
+    </script>
+
+</body>
+</html>
